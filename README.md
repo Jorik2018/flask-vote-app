@@ -11,6 +11,8 @@ This application can be deployed locally. On linux, install git and clone the re
     [root@centos]# git clone https://github.com/kalise/flask-vote-app
     [root@centos]# cd flask-vote-app
 
+pipenv lock -r > requirements.txt
+
 Install the dependencies
 
     pip install flask
