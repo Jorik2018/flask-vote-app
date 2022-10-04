@@ -214,8 +214,8 @@ def vote():
 @app.route('/results.html')
 def results():
    if not session.get("name"):return redirect("/login")
-   results = Option.query.filter_by(poll_id=poll.id).all()
    poll = Poll.query.first()
+   results = Option.query.filter_by(poll_id=poll.id).all()
    return render_template('results.html', hostname=hostname, poll=poll, results=results)
 
 @app.route("/matplot-as-image-<int:num_x_points>.png")
