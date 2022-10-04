@@ -155,6 +155,7 @@ def simple():
    #ax.barh(langs,students)
    #fig.ylabel('Product')
    #fig.xlabel('Quantity')
+   poll = Poll.query.first()
    results = Option.query.filter_by(poll_id=poll.id).all()
    Product = []
 
