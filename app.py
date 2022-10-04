@@ -90,6 +90,8 @@ else:
 def index():
    if not session.get("name"):return redirect("/login")
    hostname="hostname"
+   db.session.commit()
+   poll = Poll(poll.name, poll.question)
    return render_template('index.html', hostname=hostname, poll=poll)
 
 
