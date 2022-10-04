@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 flask-session = "*"
 matplotlib = "*"
 gunicorn = "*"
+waitress = "*"
 
 [dev-packages]
 

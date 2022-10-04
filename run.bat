@@ -1,2 +1,2 @@
 SET FLASK_DEBUG=true
-flask run --port=5001
+waitress-serve wsgi:app 

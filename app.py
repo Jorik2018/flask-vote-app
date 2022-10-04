@@ -53,6 +53,38 @@ class Option(db.Model):
       self.poll = poll
       self.votes = votes
 
+
+db.create_all()
+db.session.commit()
+hostname = socket.gethostname()
+   
+print("Check if a poll already exists into db")
+# TODO check the latest one filtered by timestamp
+poll = Poll.query.first()
+
+if poll:
+   print("Restart the poll")
+   poll.stamp = datetime.utcnow()
+   db.session.commit()
+
+else:
+   print("Load seed data from file")
+   try: 
+      with open(os.path.join(basedir, 'seeds/seed_data.json')) as file:
+         seed_data = json.load(file)
+         print("Start a new poll")
+         poll = Poll(seed_data['poll'], seed_data['question'])
+         db.session.add(poll)
+         for i in seed_data['options']:
+               option = Option(i, poll, 0)
+               db.session.add(option)
+         db.session.commit()
+   except:
+      print ("Cannot load seed data from file")
+      poll = Poll("", "")
+
+
+
 @app.route('/')
 @app.route('/index.html')
 def index():
@@ -211,34 +243,7 @@ def plot_svg(num_x_points=50):
     return Response(output.getvalue(), mimetype="image/svg+xml")
 
 
-db.create_all()
-db.session.commit()
-hostname = socket.gethostname()
-   
-print("Check if a poll already exists into db")
-# TODO check the latest one filtered by timestamp
-poll = Poll.query.first()
 
-if poll:
-   print("Restart the poll")
-   poll.stamp = datetime.utcnow()
-   db.session.commit()
-
-else:
-   print("Load seed data from file")
-   try: 
-      with open(os.path.join(basedir, 'seeds/seed_data.json')) as file:
-         seed_data = json.load(file)
-         print("Start a new poll")
-         poll = Poll(seed_data['poll'], seed_data['question'])
-         db.session.add(poll)
-         for i in seed_data['options']:
-               option = Option(i, poll, 0)
-               db.session.add(option)
-         db.session.commit()
-   except:
-      print ("Cannot load seed data from file")
-      poll = Poll("", "")
     
     #app.run(host='0.0.0.0', port=5000, debug=False)
 
