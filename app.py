@@ -188,6 +188,7 @@ def vote():
    has_voted = False
    vote_stamp = request.cookies.get('vote_stamp')
    hostname="hostname"
+   poll = Poll.query.first()
    if request.method == 'POST':
       has_voted = True
       vote = request.form['vote']
@@ -214,6 +215,7 @@ def vote():
 def results():
    if not session.get("name"):return redirect("/login")
    results = Option.query.filter_by(poll_id=poll.id).all()
+   poll = Poll.query.first()
    return render_template('results.html', hostname=hostname, poll=poll, results=results)
 
 @app.route("/matplot-as-image-<int:num_x_points>.png")
